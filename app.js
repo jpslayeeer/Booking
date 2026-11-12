@@ -3,7 +3,7 @@ const CONFIG = {
   address: "Sitio Bali-Bali, Brgy. Poblacion, Compostela, Cebu",
   hourlyRate: 300,
   openHour: 6,
-  closeHour: 12,
+  closeHour: 23,
   courts: ["Court 1", "Court 2"],
   supabaseUrl: "YOUR_SUPABASE_URL",
   supabaseAnonKey: "YOUR_SUPABASE_ANON_KEY"

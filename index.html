@@ -17,13 +17,13 @@
       </div>
     </header>
 
-    <main class="grid grid-cols-1 md:grid-cols-12 gap-8 p-6 md:p-10">
+        <main class="grid grid-cols-1 md:grid-cols-12 gap-8 p-6 md:p-10">
       <section class="md:col-span-7 md:pr-8 md:border-r border-gray-300 space-y-7">
-        <div>
+        <div id="step-1">
           <p class="text-sm font-semibold mb-3">Step 1. Select your court</p>
           <div id="court-list" class="grid grid-cols-2 gap-3"></div>
         </div>
-        <div>
+        <div id="step-2" style="display: none;">
           <p class="text-sm font-semibold mb-3">Step 2. Select date</p>
           <div class="flex items-center gap-2">
             <button id="prev-days" type="button" class="w-8 h-8 rounded-full bg-white border border-gray-300 font-bold hover:bg-[#18231c] hover:text-white">&lsaquo;</button>
@@ -31,7 +31,7 @@
             <button id="next-days" type="button" class="w-8 h-8 rounded-full bg-white border border-gray-300 font-bold hover:bg-[#18231c] hover:text-white">&rsaquo;</button>
           </div>
         </div>
-        <div>
+        <div id="step-3" style="display: none;">
           <div class="flex justify-between items-center mb-3">
             <p class="text-sm font-semibold">Step 3. Select time</p>
             <span id="ui-rate" class="text-xs font-medium text-gray-500">₱300 / hr</span>
@@ -49,7 +49,7 @@
             </div>
             <div id="ui-total" class="text-3xl font-extrabold text-[#18231c]">₱0</div>
           </div>
-          <div>
+          <div id="step-4" style="display: none;">
             <p class="text-sm font-semibold mb-3">Step 4. Your details</p>
             <div class="bg-white p-5 rounded-2xl shadow-sm space-y-3.5">
               <div>
@@ -71,7 +71,7 @@
             </div>
           </div>
         </div>
-        <button id="review-btn" type="button" class="w-full py-4 rounded-full bg-[#18231c] hover:bg-[#25362b] text-white font-bold shadow-lg">Review booking</button>
+        <button id="review-btn" type="button" style="display: none;" class="w-full py-4 rounded-full bg-[#18231c] hover:bg-[#25362b] text-white font-bold shadow-lg">Review booking</button>
       </section>
     </main>
   </div>

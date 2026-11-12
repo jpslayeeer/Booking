@@ -40,7 +40,7 @@ function renderCourts() {
       ? "py-3 px-5 rounded-full font-semibold text-sm bg-[#18231c] text-white shadow-md transition"
       : "py-3 px-5 rounded-full font-semibold text-sm bg-white text-[#18231c] shadow-sm hover:bg-gray-50 transition";
     btn.textContent = c;
-    btn.onclick = () => {
+      btn.onclick = () => {
       selectedCourt = c;
       selectedDateStr = "";
       selectedSlots = [];

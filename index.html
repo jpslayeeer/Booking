@@ -4,763 +4,89 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Peak and Paddle | Pickleball Court Booking</title>
-  <link rel="preconnect" href="https://googleapis.com">
-  <link rel="preconnect" href="https://gstatic.com" crossorigin>
-  <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+  <script src="https://tailwindcss.com"></script>
   <script src="https://jsdelivr.net"></script>
-  <style>
-    :root {
-      --bg-page: #f4f5f4;
-      --bg-card: #ffffff;
-      --primary-dark: #18231c;
-      --primary-hover: #25362b;
-      --text-main: #18231c;
-      --text-muted: #6b7280;
-      --border-light: #e5e7eb;
-      --pill-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #e9ecea;
-      color: var(--text-main);
-      padding: 24px 16px;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1040px;
-      background: var(--bg-page);
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-    }
-
-    .hero {
-      position: relative;
-      height: 290px;
-      background-image: linear-gradient(to top, rgba(15, 23, 18, 0.85) 0%, rgba(15, 23, 18, 0.25) 55%, rgba(15, 23, 18, 0.1) 100%),
-        url('https://unsplash.com');
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 32px 40px;
-      color: #ffffff;
-    }
-
-    .hero-title {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: clamp(2rem, 4vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      line-height: 1.1;
-      margin-bottom: 8px;
-    }
-
-    .hero-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.92);
-      font-weight: 500;
-    }
-
-    .booking-grid {
-      display: grid;
-      grid-template-columns: 1.25fr 0.85fr;
-      padding: 36px 40px 44px;
-      gap: 40px;
-      position: relative;
-    }
-
-    .left-col {
-      padding-right: 36px;
-      border-right: 1px solid #dfe3e0;
-    }
-
-    .step-group {
-      margin-bottom: 30px;
-    }
-
-    .step-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .step-label {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .court-pills {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-
-    .pill-btn {
-      background: var(--bg-card);
-      border: 1px solid transparent;
-      border-radius: 999px;
-      padding: 13px 20px;
-      font-size: 0.92rem;
-      font-weight: 600;
-      color: var(--text-main);
-      cursor: pointer;
-      box-shadow: var(--pill-shadow);
-      transition: all 0.18s ease;
-      text-align: center;
-    }
-
-    .pill-btn:hover {
-      transform: translateY(-1px);
-      border-color: #cbd5e1;
-    }
-
-    .pill-btn.active {
-      background: var(--primary-dark);
-      color: #ffffff;
-      box-shadow: 0 8px 18px rgba(24, 35, 28, 0.25);
-    }
-
-    .date-carousel-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-circle {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: 1.5px solid #cbd5e1;
-      background: var(--bg-card);
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
-      font-weight: 700;
-      transition: all 0.15s ease;
-    }
-
-    .nav-circle:hover {
-      background: var(--primary-dark);
-      color: #fff;
-      border-color: var(--primary-dark);
-    }
-
-    .date-list {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      width: 100%;
-    }
-
-    .date-card {
-      background: var(--bg-card);
-      border-radius: 14px;
-      padding: 14px 8px;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: var(--pill-shadow);
-      border: 1px solid transparent;
-      transition: all 0.18s ease;
-    }
-
-    .date-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .date-card .day-num {
-      font-size: 1.35rem;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .date-card .day-name {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-      font-weight: 500;
-    }
-
-    .date-card.active {
-      background: var(--primary-dark);
-      color: #ffffff;
-      box-shadow: 0 8px 18px rgba(24, 35, 28, 0.25);
-    }
-
-    .date-card.active .day-name {
-      color: rgba(255, 255, 255, 0.78);
-    }
-
-    .time-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 11px;
-    }
-
-    .time-slot {
-      background: var(--bg-card);
-      border: 1px solid transparent;
-      border-radius: 10px;
-      padding: 12px 6px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-main);
-      text-align: center;
-      cursor: pointer;
-      box-shadow: var(--pill-shadow);
-      transition: all 0.15s ease;
-    }
-
-    .time-slot:hover:not(.booked) {
-      border-color: var(--primary-dark);
-    }
-
-    .time-slot.selected {
-      background: var(--primary-dark);
-      color: #ffffff;
-      box-shadow: 0 6px 14px rgba(24, 35, 28, 0.24);
-    }
-
-    .time-slot.booked {
-      background: #e2e5e3;
-      color: #9ca3af;
-      text-decoration: line-through;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    .right-col {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .total-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--bg-card);
-      padding: 18px 22px;
-      border-radius: 16px;
-      box-shadow: var(--pill-shadow);
-      margin-bottom: 24px;
-    }
-
-    .total-label {
-      font-size: 0.92rem;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
-    .total-sub {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .total-amount {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--primary-dark);
-    }
-
-    .details-card {
-      background: var(--bg-card);
-      padding: 22px;
-      border-radius: 18px;
-      box-shadow: var(--pill-shadow);
-      margin-bottom: 22px;
-    }
-
-    .form-group {
-      margin-bottom: 14px;
-    }
-
-    .form-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #374151;
-      margin-bottom: 6px;
-    }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--border-light);
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 0.9rem;
-      color: var(--text-main);
-      background: #fafafa;
-      transition: border-color 0.15s ease, background 0.15s ease;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--primary-dark);
-      background: #ffffff;
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 68px;
-    }
-
-    .submit-btn {
-      width: 100%;
-      background: var(--primary-dark);
-      color: #ffffff;
-      border: none;
-      border-radius: 999px;
-      padding: 16px 24px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(24, 35, 28, 0.22);
-      transition: background 0.18s ease, transform 0.15s ease;
-    }
-
-    .submit-btn:hover {
-      background: var(--primary-hover);
-      transform: translateY(-1px);
-    }
-
-    .submit-btn:disabled {
-      background: #9ca3af;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 18, 0.6);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      z-index: 100;
-    }
-
-    .modal-backdrop.open {
-      display: flex;
-    }
-
-    .modal-box {
-      background: #ffffff;
-      border-radius: 22px;
-      max-width: 440px;
-      width: 100%;
-      padding: 28px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-    }
-
-    .modal-title {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 9px 0;
-      border-bottom: 1px solid #f1f5f9;
-      font-size: 0.9rem;
-    }
-
-    .summary-row span:first-child {
-      color: var(--text-muted);
-    }
-
-    .summary-row span:last-child {
-      font-weight: 600;
-      text-align: right;
-    }
-
-    .modal-actions {
-      display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: 12px;
-      margin-top: 22px;
-    }
-
-    .btn-secondary {
-      background: #f3f4f6;
-      color: var(--text-main);
-      border: none;
-      border-radius: 999px;
-      padding: 13px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    @media (max-width: 860px) {
-      .booking-grid {
-        grid-template-columns: 1fr;
-        padding: 24px 20px 32px;
-    gap: 28px;
-  }
-  .left-col {
-    padding-right: 0;
-    border-right: none;
-    border-bottom: 1px solid #dfe3e0;
-    padding-bottom: 28px;
-  }
-  .hero {
-    height: 230px;
-    padding: 24px 20px;
-  }
-  .time-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-  </style>
 </head>
-<body>
-  <div class="container">
-    <header class="hero">
-      <h1 class="hero-title" id="ui-facility-name">PEAK AND PADDLE</h1>
-      <div class="hero-meta">
+<body class="bg-[#e9ecea] text-[#18231c] min-h-screen py-6 px-4 flex justify-center items-start font-sans">
+  <div class="w-full max-w-5xl bg-[#f4f5f4] rounded-3xl overflow-hidden shadow-2xl">
+    <header class="relative h-64 md:h-72 bg-cover bg-center flex flex-col justify-end p-6 md:p-10 text-white"
+      style="background-image: linear-gradient(to top, rgba(15,23,18,0.88) 0%, rgba(15,23,18,0.25) 60%), url('https://unsplash.com');">
+      <h1 id="ui-name" class="text-3xl md:text-5xl font-extrabold uppercase tracking-tight mb-2">PEAK AND PADDLE</h1>
+      <div class="flex flex-wrap justify-between gap-2 text-sm md:text-base text-white/90 font-medium">
         <span id="ui-address">Sitio Bali-Bali, Brgy. Poblacion, Compostela, Cebu</span>
-        <span id="ui-hours-banner">Open Daily 6:00 AM - 12:00 PM</span>
+        <span id="ui-hours">Open Daily 6:00 AM - 12:00 PM</span>
       </div>
     </header>
 
-    <main class="booking-grid">
-      <section class="left-col">
-        <div class="step-group">
-          <div class="step-label">Step 1. Select your court</div>
-          <div class="court-pills" id="court-selector"></div>
+    <main class="grid grid-cols-1 md:grid-cols-12 gap-8 p-6 md:p-10">
+      <section class="md:col-span-7 md:pr-8 md:border-r border-gray-300 space-y-7">
+        <div>
+          <p class="text-sm font-semibold mb-3">Step 1. Select your court</p>
+          <div id="court-list" class="grid grid-cols-2 gap-3"></div>
         </div>
-
-        <div class="step-group">
-          <div class="step-label">Step 2. Select date</div>
-          <div class="date-carousel-wrapper">
-            <button type="button" class="nav-circle" id="prev-days">&lsaquo;</button>
-            <div class="date-list" id="date-list"></div>
-            <button type="button" class="nav-circle" id="next-days">&rsaquo;</button>
+        <div>
+          <p class="text-sm font-semibold mb-3">Step 2. Select date</p>
+          <div class="flex items-center gap-2">
+            <button id="prev-days" type="button" class="w-8 h-8 rounded-full bg-white border border-gray-300 font-bold hover:bg-[#18231c] hover:text-white">&lsaquo;</button>
+            <div id="date-list" class="grid grid-cols-5 gap-2 w-full"></div>
+            <button id="next-days" type="button" class="w-8 h-8 rounded-full bg-white border border-gray-300 font-bold hover:bg-[#18231c] hover:text-white">&rsaquo;</button>
           </div>
         </div>
-
-        <div class="step-group">
-          <div class="step-label">
-            <span>Step 3. Select time</span>
-            <span style="font-size: 0.78rem; color: var(--text-muted);" id="rate-badge">₱300 / hr</span>
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <p class="text-sm font-semibold">Step 3. Select time</p>
+            <span id="ui-rate" class="text-xs font-medium text-gray-500">₱300 / hr</span>
           </div>
-          <div class="time-grid" id="time-grid"></div>
+          <div id="time-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5"></div>
         </div>
       </section>
 
-      <section class="right-col">
-        <div>
-          <div class="total-header">
+      <section class="md:col-span-5 flex flex-col justify-between space-y-6">
+        <div class="space-y-5">
+          <div class="bg-white p-5 rounded-2xl shadow-sm flex justify-between items-center">
             <div>
-              <div class="total-label">Estimated Total</div>
-              <div class="total-sub" id="selected-hours-label">0 hours selected</div>
+              <p class="text-sm font-semibold text-gray-500">Estimated Total</p>
+              <p id="ui-hours-count" class="text-xs text-gray-400 mt-0.5">0 hours selected</p>
             </div>
-            <div class="total-amount" id="total-price">₱0</div>
+            <div id="ui-total" class="text-3xl font-extrabold text-[#18231c]">₱0</div>
           </div>
-
-          <div class="step-label">Step 4. Your details</div>
-          <div class="details-card">
-            <div class="form-group">
-              <label for="full-name">Full name *</label>
-              <input type="text" id="full-name" placeholder="Juan Dela Cruz" required />
-            </div>
-            <div class="form-group">
-              <label for="contact-no">Contact no. / Messenger *</label>
-              <input type="text" id="contact-no" placeholder="0917 123 4567" required />
-            </div>
-            <div class="form-group">
-              <label for="email">Email address (Optional)</label>
-              <input type="email" id="email" placeholder="juan@email.com" />
-            </div>
-            <div class="form-group">
-              <label for="notes">Notes / GCash Ref No. (Optional)</label>
-              <textarea id="notes" placeholder="Add special requests or GCash reference number"></textarea>
+          <div>
+            <p class="text-sm font-semibold mb-3">Step 4. Your details</p>
+            <div class="bg-white p-5 rounded-2xl shadow-sm space-y-3.5">
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">Full name *</label>
+                <input id="full-name" type="text" placeholder="Juan Dela Cruz" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">Contact no. / Messenger *</label>
+                <input id="contact-no" type="text" placeholder="0917 123 4567" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">Email address (Optional)</label>
+                <input id="email" type="email" placeholder="juan@email.com" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">Notes / GCash Ref No. (Optional)</label>
+                <textarea id="notes" rows="2" placeholder="Add special requests or GCash reference number" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50"></textarea>
+              </div>
             </div>
           </div>
         </div>
-
-        <button type="button" class="submit-btn" id="review-btn">Review booking</button>
+        <button id="review-btn" type="button" class="w-full py-4 rounded-full bg-[#18231c] hover:bg-[#25362b] text-white font-bold shadow-lg">Review booking</button>
       </section>
     </main>
   </div>
 
-  <div class="modal-backdrop" id="review-modal">
-    <div class="modal-box">
-      <div class="modal-title" id="modal-heading">Review Your Booking</div>
-      <div id="modal-summary"></div>
-      <div class="modal-actions" id="modal-actions">
-        <button type="button" class="btn-secondary" id="close-modal">Edit</button>
-        <button type="button" class="submit-btn" style="padding: 13px;" id="confirm-booking-btn">Confirm Booking</button>
+  <div id="modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-3xl max-w-md w-full p-7 shadow-2xl">
+      <h2 id="modal-title" class="text-xl font-extrabold mb-4">Review Your Booking</h2>
+      <div id="modal-body"></div>
+      <div id="modal-actions" class="grid grid-cols-2 gap-3 mt-6">
+        <button id="close-modal" type="button" class="py-3 rounded-full bg-gray-100 font-semibold text-sm">Edit</button>
+        <button id="confirm-btn" type="button" class="py-3 rounded-full bg-[#18231c] text-white font-bold text-sm">Confirm Booking</button>
       </div>
     </div>
   </div>
-
-  <script>
-    const CONFIG = {
-      facilityName: "Peak and Paddle",
-      address: "Sitio Bali-Bali, Brgy. Poblacion, Compostela, Cebu",
-      hourlyRate: 300,
-      openHour: 6,
-      closeHour: 12,
-      courts: ["Court 1", "Court 2"],
-      supabaseUrl: "YOUR_SUPABASE_URL",
-      supabaseAnonKey: "YOUR_SUPABASE_ANON_KEY"
-    };
-
-    const isSupabaseConfigured = CONFIG.supabaseUrl.startsWith("http");
-    const db = isSupabaseConfigured
-      ? window.supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey)
-      : null;
-
-    let selectedCourt = CONFIG.courts[0];
-    let dateOffset = 0;
-    let selectedDateStr = "";
-    let selectedSlots = [];
-    let bookedSlotsForDate = [];
-
-    function formatHour(hour24) {
-      const period = hour24 >= 12 && hour24 < 24 ? "PM" : "AM";
-      const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
-      return `${hour12}:00 ${period}`;
-    }
-
-    function generateTimeSlots() {
-      const slots = [];
-      for (let h = CONFIG.openHour; h < CONFIG.closeHour; h++) {
-        slots.push(`${formatHour(h)} - ${formatHour(h + 1)}`);
-      }
-      return slots;
-    }
-
-    function initHeader() {
-      document.getElementById("ui-facility-name").textContent = CONFIG.facilityName;
-      document.getElementById("ui-address").textContent = CONFIG.address;
-      document.getElementById("ui-hours-banner").textContent =
-        `Open Daily ${formatHour(CONFIG.openHour)} - ${formatHour(CONFIG.closeHour)}`;
-      document.getElementById("rate-badge").textContent = `₱${CONFIG.hourlyRate.toLocaleString()} / hr`;
-    }
-
-    function renderCourts() {
-      const container = document.getElementById("court-selector");
-      container.innerHTML = "";
-      CONFIG.courts.forEach(court => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = `pill-btn ${court === selectedCourt ? "active" : ""}`;
-        btn.textContent = court;
-        btn.onclick = () => {
-          selectedCourt = court;
-          selectedSlots = [];
-          renderCourts();
-          fetchBookedSlots();
-          updateTotal();
-        };
-        container.appendChild(btn);
-      });
-    }
-
-    function renderDates() {
-      const container = document.getElementById("date-list");
-      container.innerHTML = "";
-      const today = new Date();
-
-      for (let i = 0; i < 5; i++) {
-        const d = new Date(today);
-        d.setDate(today.getDate() + dateOffset + i);
-
-        const year = d.getFullYear();
-        const month = String(d.getMonth() + 1).padStart(2, "0");
-        const day = String(d.getDate()).padStart(2, "0");
-        const isoDate = `${year}-${month}-${day}`;
-
-        if (!selectedDateStr && i === 0) selectedDateStr = isoDate;
-        const dayName = d.toLocaleDateString("en-US", { weekday: "short" });
-
-        const card = document.createElement("div");
-        card.className = `date-card ${isoDate === selectedDateStr ? "active" : ""}`;
-        card.innerHTML = `<div class="day-num">${day}</div><div class="day-name">${dayName}</div>`;
-        card.onclick = () => {
-          selectedDateStr = isoDate;
-          selectedSlots = [];
-          renderDates();
-          fetchBookedSlots();
-          updateTotal();
-        };
-        container.appendChild(card);
-      }
-    }
-
-    async function fetchBookedSlots() {
-      bookedSlotsForDate = [];
-      if (db) {
-        const { data, error } = await db
-          .from("bookings")
-          .select("time_slot")
-          .eq("court_name", selectedCourt)
-          .eq("booking_date", selectedDateStr);
-
-        if (!error && data) {
-          bookedSlotsForDate = data.map(row => row.time_slot);
-        }
-      }
-      renderTimeSlots();
-    }
-
-    function renderTimeSlots() {
-      const container = document.getElementById("time-grid");
-      container.innerHTML = "";
-      generateTimeSlots().forEach(slot => {
-        const isBooked = bookedSlotsForDate.includes(slot);
-        const isSelected = selectedSlots.includes(slot);
-
-        const el = document.createElement("div");
-        el.className = `time-slot ${isBooked ? "booked" : ""} ${isSelected ? "selected" : ""}`;
-        el.textContent = slot;
-
-        if (!isBooked) {
-          el.onclick = () => {
-            if (selectedSlots.includes(slot)) {
-              selectedSlots = selectedSlots.filter(s => s !== slot);
-            } else {
-              selectedSlots.push(slot);
-            }
-            renderTimeSlots();
-            updateTotal();
-          };
-        }
-        container.appendChild(el);
-      });
-    }
-
-    function updateTotal() {
-      const count = selectedSlots.length;
-      const total = count * CONFIG.hourlyRate;
-      document.getElementById("selected-hours-label").textContent =
-        `${count} ${count === 1 ? "hour" : "hours"} selected`;
-      document.getElementById("total-price").textContent = `₱${total.toLocaleString()}`;
-    }
-
-    document.getElementById("prev-days").onclick = () => {
-      if (dateOffset > 0) {
-        dateOffset -= 1;
-        renderDates();
-      }
-    };
-
-    document.getElementById("next-days").onclick = () => {
-      dateOffset += 1;
-      renderDates();
-    };
-
-    const modal = document.getElementById("review-modal");
-    document.getElementById("review-btn").onclick = () => {
-      const name = document.getElementById("full-name").value.trim();
-      const contact = document.getElementById("contact-no").value.trim();
-
-      if (selectedSlots.length === 0) return alert("Please select at least one time slot first.");
-      if (!name || !contact) return alert("Please enter your Full Name and Contact Number.");
-
-      const total = selectedSlots.length * CONFIG.hourlyRate;
-      document.getElementById("modal-heading").textContent = "Review Your Booking";
-      document.getElementById("modal-summary").innerHTML = `
-        <div class="summary-row"><span>Court</span><span>${selectedCourt}</span></div>
-        <div class="summary-row"><span>Date</span><span>${selectedDateStr}</span></div>
-        <div class="summary-row"><span>Time</span><span>${selectedSlots.join("<br>")}</span></div>
-        <div class="summary-row"><span>Name</span><span>${name}</span></div>
-        <div class="summary-row"><span>Contact</span><span>${contact}</span></div>
-        <div class="summary-row" style="border-bottom:none; font-size:1.05rem;">
-          <span>Total Amount</span><span>₱${total.toLocaleString()}</span>
-        </div>
-  `;
-  document.getElementById("modal-actions").style.display = "grid";
-  modal.classList.add("open");
-};
-
-document.getElementById("close-modal").onclick = () => modal.classList.remove("open");
-
-document.getElementById("confirm-booking-btn").onclick = async () => {
-  const btn = document.getElementById("confirm-booking-btn");
-  btn.disabled = true;
-  btn.textContent = "Saving...";
-
-  const name = document.getElementById("full-name").value.trim();
-  const contact = document.getElementById("contact-no").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const notes = document.getElementById("notes").value.trim();
-
-  if (db) {
-    const rows = selectedSlots.map(slot => ({
-      court_name: selectedCourt,
-      booking_date: selectedDateStr,
-      time_slot: slot,
-      full_name: name,
-      contact_no: contact,
-      email: email,
-      notes: notes,
-      total_amount: CONFIG.hourlyRate,
-      status: "pending"
-    }));
-
-    const { error } = await db.from("bookings").insert(rows);
-    if (error) {
-      alert("Sorry! One of those slots was just booked. Please pick another.");
-      btn.disabled = false;
-      btn.textContent = "Confirm Booking";
-      modal.classList.remove("open");
-      fetchBookedSlots();
-      return;
-    }
-  }
-
-  document.getElementById("modal-heading").textContent = "Booking Confirmed!";
-  document.getElementById("modal-summary").innerHTML = `<p style="font-size:0.92rem; color:#374151; line-height:1.5; margin-bottom:14px;">Thank you, <strong>${name}</strong>! Your slot at <strong>${CONFIG.facilityName}</strong> is reserved.</p><button type="button" class="submit-btn" onclick="location.reload()">Done</button>`;
-  document.getElementById("modal-actions").style.display = "none";
-};
-
-initHeader();
-renderCourts();
-renderDates();
-fetchBookedSlots();
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>

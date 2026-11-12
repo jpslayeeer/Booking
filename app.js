@@ -6,7 +6,10 @@ const CONFIG = {
   closeHour: 23,
   courts: ["Court 1", "Court 2"],
   supabaseUrl: "https://supabase.co",
-  supabaseAnonKey: "sb_publishable_ccBH2mBZycjN6RVicoy_7A_eu_Rs0ZI"
+  supabaseAnonKey: "sb_publishable_ccBH2mBZycjN6RVicoy_7A_eu_Rs0ZI",
+  gcashNumber: "0917 123 4567",
+  gcashName: "Peak and Paddle",
+  gcashQrImage: "gcash-qr.png"
 };
 
 let selectedCourt = "";
@@ -167,9 +170,9 @@ document.getElementById("review-btn").onclick = () => {
 
     <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:14px; padding:14px; text-align:center; margin-bottom:12px;">
       <p style="font-size:0.8rem; font-weight:700; color:#1e40af; margin-bottom:6px;">Scan QR or Send via GCash</p>
-      <img src="gcash-qr.png" alt="GCash QR Code" style="width:150px; height:150px; object-fit:contain; margin:0 auto 8px; border-radius:10px; background:#fff; padding:6px;" />
-      <p style="font-size:0.85rem; font-weight:700; color:#18231c;">${CONFIG.gcashNumber || "0917 123 4567"}</p>
-      <p style="font-size:0.78rem; color:#4b5563;">${CONFIG.gcashName || "Peak & Paddle"}</p>
+      <img src="${CONFIG.gcashQrImage}" alt="GCash QR Code" style="width:150px; height:150px; object-fit:contain; margin:0 auto 8px; border-radius:10px; background:#fff; padding:6px;" />
+      <p style="font-size:0.85rem; font-weight:700; color:#18231c;">${CONFIG.gcashNumber}</p>
+      <p style="font-size:0.78rem; color:#4b5563;">${CONFIG.gcashName}</p>
     </div>
 
     <div>

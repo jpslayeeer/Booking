@@ -176,7 +176,7 @@ document.getElementById("review-btn").onclick = () => {
     </div>
 
     <div>
-      <label style="display:block; font-size:0.78rem; font-weight:600; color:#374151; margin-bottom:4px;">GCash Reference No. (Recommended)</label>
+      <label style="display:block; font-size:0.78rem; font-weight:600; color:#374151; margin-bottom:4px;">GCash Reference No. (*)</label>
       <input id="modal-gcash-ref" type="text" placeholder="Enter 13-digit GCash Ref No." style="width:100%; padding:9px 12px; border:1px solid #d1d5db; border-radius:8px; font-size:0.88rem;" />
     </div>`;
   document.getElementById("modal-actions").classList.remove("hidden");
@@ -186,6 +186,12 @@ document.getElementById("review-btn").onclick = () => {
 document.getElementById("close-modal").onclick = () => document.getElementById("modal").classList.add("hidden");
 
 document.getElementById("confirm-btn").onclick = async () => {
+  const gcashRef = document.getElementById("modal-gcash-ref") ? document.getElementById("modal-gcash-ref").value.trim() : "";
+  if (!gcashRef) {
+    alert("Please enter your GCash Reference Number before confirming your booking.");
+    return;
+  }
+
   const btn = document.getElementById("confirm-btn");
   btn.disabled = true;
   btn.textContent = "Saving...";
@@ -193,8 +199,7 @@ document.getElementById("confirm-btn").onclick = async () => {
   const contact = document.getElementById("contact-no").value.trim();
   const email = document.getElementById("email").value.trim();
   const baseNotes = document.getElementById("notes").value.trim();
-  const gcashRef = document.getElementById("modal-gcash-ref") ? document.getElementById("modal-gcash-ref").value.trim() : "";
-  const notes = [gcashRef ? `GCash Ref: ${gcashRef}` : "", baseNotes].filter(Boolean).join(" | ");
+  const notes = [`GCash Ref: ${gcashRef}`, baseNotes].filter(Boolean).join(" | ");
 
   const rows = selectedSlots.map(slot => ({
     court_name: selectedCourt, booking_date: selectedDateStr, time_slot: slot,

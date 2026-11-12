@@ -12,7 +12,7 @@ const CONFIG = {
 const isSupabaseReady = CONFIG.supabaseUrl.startsWith("http");
 const db = isSupabaseReady ? window.supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey) : null;
 
-let selectedCourt = CONFIG.courts[0];
+let selectedCourt = CONFIG.courts;
 let dateOffset = 0;
 let selectedDateStr = "";
 let selectedSlots = [];

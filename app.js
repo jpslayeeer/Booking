@@ -5,8 +5,8 @@ const CONFIG = {
   openHour: 6,
   closeHour: 23,
   courts: ["Court 1", "Court 2"],
-  supabaseUrl: "YOUR_SUPABASE_URL",
-  supabaseAnonKey: "YOUR_SUPABASE_ANON_KEY"
+  supabaseUrl: "https://fkvtxsyozilpuheexjio.supabase.co/rest/v1/",
+  supabaseAnonKey: "sb_publishable_ccBH2mBZycjN6RVicoy_7A_eu_Rs0ZI"
 };
 
 const isSupabaseReady = CONFIG.supabaseUrl.startsWith("http");

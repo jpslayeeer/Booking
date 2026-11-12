@@ -9,7 +9,7 @@ const CONFIG = {
   supabaseAnonKey: "sb_publishable_ccBH2mBZycjN6RVicoy_7A_eu_Rs0ZI"
 };
 
-const isSupabaseReady = CONFIG.supabaseUrl.startsWith("http");
+const isSupabaseReady = CONFIG.supabaseUrl.startsWith("http") && typeof window.supabase !== "undefined";
 const db = isSupabaseReady ? window.supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey) : null;
 
 let selectedCourt = CONFIG.courts;"

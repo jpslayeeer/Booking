@@ -9,7 +9,7 @@ const CONFIG = {
   supabaseAnonKey: "sb_publishable_ccBH2mBZycjN6RVicoy_7A_eu_Rs0ZI"
 };
 
-let selectedCourt = CONFIG.courts;
+let selectedCourt = "";
 let dateOffset = 0;
 let selectedDateStr = "";
 let selectedSlots = [];
@@ -27,8 +27,6 @@ function init() {
   document.getElementById("ui-hours").textContent = `Open Daily ${formatHour(CONFIG.openHour)} - ${formatHour(CONFIG.closeHour)}`;
   document.getElementById("ui-rate").textContent = `₱${CONFIG.hourlyRate.toLocaleString()} / hr`;
   renderCourts();
-  renderDates();
-  loadBookedSlots();
 }
 
 function renderCourts() {
@@ -44,9 +42,14 @@ function renderCourts() {
     btn.textContent = c;
     btn.onclick = () => {
       selectedCourt = c;
+      selectedDateStr = "";
       selectedSlots = [];
       renderCourts();
-      loadBookedSlots();
+      renderDates();
+      document.getElementById("step-2").style.display = "block";
+      document.getElementById("step-3").style.display = "none";
+      document.getElementById("step-4").style.display = "none";
+      document.getElementById("review-btn").style.display = "none";
       updateTotal();
     };
     box.appendChild(btn);
@@ -61,7 +64,6 @@ function renderDates() {
     const d = new Date(today);
     d.setDate(today.getDate() + dateOffset + i);
     const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-    if (!selectedDateStr && i === 0) selectedDateStr = iso;
     const active = iso === selectedDateStr;
 
     const card = document.createElement("div");
@@ -74,22 +76,65 @@ function renderDates() {
       selectedSlots = [];
       renderDates();
       loadBookedSlots();
+      document.getElementById("step-3").style.display = "block";
+      document.getElementById("step-4").style.display = "none";
+      document.getElementById("review-btn").style.display = "none";
       updateTotal();
     };
     box.appendChild(card);
   }
 }
+
 async function loadBookedSlots() {
   bookedSlots = [];
-  if (db) {
-    const { data } = await db
-      .from("bookings")
-      .select("time_slot")
-      .eq("court_name", selectedCourt)
-      .eq("booking_date", selectedDateStr);
-    if (data) bookedSlots = data.map(r => r.time_slot);
+  try {
+    const url = `${CONFIG.supabaseUrl}/rest/v1/bookings?select=time_slot&court_name=eq.${encodeURIComponent(selectedCourt)}&booking_date=eq.${selectedDateStr}`;
+    const res = await fetch(url, {
+      headers: {
+        apikey: CONFIG.supabaseAnonKey,
+        Authorization: `Bearer ${CONFIG.supabaseAnonKey}`
+      }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      bookedSlots = data.map(r => r.time_slot);
+    }
+  } catch (e) {
+    console.error("Could not load slots:", e);
   }
   renderSlots();
+}
+
+function renderSlots() {
+  const box = document.getElementById("time-grid");
+  box.innerHTML = "";
+  for (let h = CONFIG.openHour; h < CONFIG.closeHour; h++) {
+    const label = `${formatHour(h)} - ${formatHour(h + 1)}`;
+    const isBooked = bookedSlots.includes(label);
+    const isSelected = selectedSlots.includes(label);
+
+    const el = document.createElement("div");
+    el.textContent = label;
+    if (isBooked) {
+      el.className = "py-3 px-2 rounded-xl text-xs font-semibold text-center bg-gray-200 text-gray-400 line-through cursor-not-allowed";
+    } else if (isSelected) {
+      el.className = "py-3 px-2 rounded-xl text-xs font-semibold text-center bg-[#18231c] text-white shadow-md cursor-pointer";
+    } else {
+      el.className = "py-3 px-2 rounded-xl text-xs font-semibold text-center bg-white text-[#18231c] shadow-sm hover:border-[#18231c] border border-transparent cursor-pointer";
+    }
+
+    if (!isBooked) {
+      el.onclick = () => {
+        selectedSlots = isSelected ? selectedSlots.filter(s => s !== label) : [...selectedSlots, label];
+        renderSlots();
+        updateTotal();
+        const hasSlots = selectedSlots.length > 0;
+        document.getElementById("step-4").style.display = hasSlots ? "block" : "none";
+        document.getElementById("review-btn").style.display = hasSlots ? "block" : "none";
+      };
+    }
+    box.appendChild(el);
+  }
 }
 
 function renderSlots() {

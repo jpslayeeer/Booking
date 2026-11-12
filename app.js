@@ -5,7 +5,7 @@ const CONFIG = {
   openHour: 7,
   closeHour: 23,
   courts: ["Court 1", "Court 2"],
-  supabaseUrl: "https://supabase.co",
+  supabaseUrl: "https://fkvtxsyozilpuheexjio.supabase.co",
   supabaseAnonKey: "sb_publishable_ccBH2mBZycjN6RVicoy_7A_eu_Rs0ZI",
   gcashNumber: "0917 123 4567",
   gcashName: "Peak and Paddle",

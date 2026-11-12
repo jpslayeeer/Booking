@@ -123,7 +123,7 @@ function renderSlots() {
       el.className = "py-3 px-2 rounded-xl text-xs font-semibold text-center bg-white text-[#18231c] shadow-sm hover:border-[#18231c] border border-transparent cursor-pointer";
     }
 
-    if (!isBooked) {
+      if (!isBooked) {
       el.onclick = () => {
         selectedSlots = isSelected ? selectedSlots.filter(s => s !== label) : [...selectedSlots, label];
         renderSlots();

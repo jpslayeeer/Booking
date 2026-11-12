@@ -4,11 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Peak and Paddle | Pickleball Court Booking</title>
-  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://googleapis.com">
   <link rel="preconnect" href="https://gstatic.com" crossorigin>
   <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
-  <!-- Supabase JS SDK -->
   <script src="https://jsdelivr.net"></script>
   <style>
     :root {
@@ -49,7 +47,6 @@
       box-shadow: var(--card-shadow);
     }
 
-    /* Hero Banner */
     .hero {
       position: relative;
       height: 290px;
@@ -85,7 +82,6 @@
       font-weight: 500;
     }
 
-    /* Main Grid Layout */
     .booking-grid {
       display: grid;
       grid-template-columns: 1.25fr 0.85fr;
@@ -117,7 +113,6 @@
       justify-content: space-between;
     }
 
-    /* Step 1: Court Pills */
     .court-pills {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -149,7 +144,6 @@
       box-shadow: 0 8px 18px rgba(24, 35, 28, 0.25);
     }
 
-    /* Step 2: Date Carousel */
     .date-carousel-wrapper {
       display: flex;
       align-items: center;
@@ -223,7 +217,6 @@
       color: rgba(255, 255, 255, 0.78);
     }
 
-    /* Step 3: Time Slots Grid */
     .time-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -262,7 +255,6 @@
       box-shadow: none;
     }
 
-    /* Right Column: Total & Form */
     .right-col {
       display: flex;
       flex-direction: column;
@@ -373,7 +365,6 @@
       transform: none;
     }
 
-    /* Review & Confirmation Modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -431,285 +422,345 @@
     }
 
     .btn-secondary {
-background: #f3f4f6;
-color: var(--text-main);
-border: none;
-border-radius: 999px;
-padding: 13px;
-font-weight: 600;
-cursor: pointer;
+      background: #f3f4f6;
+      color: var(--text-main);
+      border: none;
+      border-radius: 999px;
+      padding: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    @media (max-width: 860px) {
+      .booking-grid {
+        grid-template-columns: 1fr;
+        padding: 24px 20px 32px;
+    gap: 28px;
+  }
+  .left-col {
+    padding-right: 0;
+    border-right: none;
+    border-bottom: 1px solid #dfe3e0;
+    padding-bottom: 28px;
+  }
+  .hero {
+    height: 230px;
+    padding: 24px 20px;
+  }
+  .time-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-/* Responsive Mobile Adjustments */
-@media (max-width: 860px) {
-.booking-grid {
-grid-template-columns: 1fr;
-padding: 24px 20px 32px;
-gap: 28px;
-}
-.left-col {
-padding-right: 0;
-border-right: none;
-border-bottom: 1px solid #dfe3e0;
-padding-bottom: 28px;
-}
-.hero {
-height: 230px;
-padding: 24px 20px;
-}
-.time-grid {
-grid-template-columns: repeat(2, 1fr);
-}
-}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1 class="hero-title" id="ui-facility-name">PEAK AND PADDLE</h1>
+      <div class="hero-meta">
+        <span id="ui-address">Sitio Bali-Bali, Brgy. Poblacion, Compostela, Cebu</span>
+        <span id="ui-hours-banner">Open Daily 6:00 AM - 12:00 PM</span>
+      </div>
+    </header>
 
+    <main class="booking-grid">
+      <section class="left-col">
+        <div class="step-group">
+          <div class="step-label">Step 1. Select your court</div>
+          <div class="court-pills" id="court-selector"></div>
+        </div>
 
-PEAK AND PADDLE
+        <div class="step-group">
+          <div class="step-label">Step 2. Select date</div>
+          <div class="date-carousel-wrapper">
+            <button type="button" class="nav-circle" id="prev-days">&lsaquo;</button>
+            <div class="date-list" id="date-list"></div>
+            <button type="button" class="nav-circle" id="next-days">&rsaquo;</button>
+          </div>
+        </div>
 
-Sitio Bali-Bali, Brgy. Poblacion, Compostela, Cebu
-Open Daily 6:00 AM - 12:00 PM
+        <div class="step-group">
+          <div class="step-label">
+            <span>Step 3. Select time</span>
+            <span style="font-size: 0.78rem; color: var(--text-muted);" id="rate-badge">₱300 / hr</span>
+          </div>
+          <div class="time-grid" id="time-grid"></div>
+        </div>
+      </section>
 
-Step 1. Select your court
+      <section class="right-col">
+        <div>
+          <div class="total-header">
+            <div>
+              <div class="total-label">Estimated Total</div>
+              <div class="total-sub" id="selected-hours-label">0 hours selected</div>
+            </div>
+            <div class="total-amount" id="total-price">₱0</div>
+          </div>
 
-Step 2. Select date
+          <div class="step-label">Step 4. Your details</div>
+          <div class="details-card">
+            <div class="form-group">
+              <label for="full-name">Full name *</label>
+              <input type="text" id="full-name" placeholder="Juan Dela Cruz" required />
+            </div>
+            <div class="form-group">
+              <label for="contact-no">Contact no. / Messenger *</label>
+              <input type="text" id="contact-no" placeholder="0917 123 4567" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email address (Optional)</label>
+              <input type="email" id="email" placeholder="juan@email.com" />
+            </div>
+            <div class="form-group">
+              <label for="notes">Notes / GCash Ref No. (Optional)</label>
+              <textarea id="notes" placeholder="Add special requests or GCash reference number"></textarea>
+            </div>
+          </div>
+        </div>
 
-‹
+        <button type="button" class="submit-btn" id="review-btn">Review booking</button>
+      </section>
+    </main>
+  </div>
 
-›
+  <div class="modal-backdrop" id="review-modal">
+    <div class="modal-box">
+      <div class="modal-title" id="modal-heading">Review Your Booking</div>
+      <div id="modal-summary"></div>
+      <div class="modal-actions" id="modal-actions">
+        <button type="button" class="btn-secondary" id="close-modal">Edit</button>
+        <button type="button" class="submit-btn" style="padding: 13px;" id="confirm-booking-btn">Confirm Booking</button>
+      </div>
+    </div>
+  </div>
 
-Step 3. Select time
-₱0 / hr
+  <script>
+    const CONFIG = {
+      facilityName: "Peak and Paddle",
+      address: "Sitio Bali-Bali, Brgy. Poblacion, Compostela, Cebu",
+      hourlyRate: 300,
+      openHour: 6,
+      closeHour: 12,
+      courts: ["Court 1", "Court 2"],
+      supabaseUrl: "YOUR_SUPABASE_URL",
+      supabaseAnonKey: "YOUR_SUPABASE_ANON_KEY"
+    };
 
+    const isSupabaseConfigured = CONFIG.supabaseUrl.startsWith("http");
+    const db = isSupabaseConfigured
+      ? window.supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey)
+      : null;
 
-Estimated Total
-0 hours selected
+    let selectedCourt = CONFIG.courts[0];
+    let dateOffset = 0;
+    let selectedDateStr = "";
+    let selectedSlots = [];
+    let bookedSlotsForDate = [];
 
-₱0
-Step 4. Your details
+    function formatHour(hour24) {
+      const period = hour24 >= 12 && hour24 < 24 ? "PM" : "AM";
+      const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
+      return `${hour12}:00 ${period}`;
+    }
 
-Full name *
-Contact no. / Messenger *
-Email address (Optional)
-Notes / GCash Ref No. (Optional)
-Review booking
+    function generateTimeSlots() {
+      const slots = [];
+      for (let h = CONFIG.openHour; h < CONFIG.closeHour; h++) {
+        slots.push(`${formatHour(h)} - ${formatHour(h + 1)}`);
+      }
+      return slots;
+    }
 
-Review Your Booking
+    function initHeader() {
+      document.getElementById("ui-facility-name").textContent = CONFIG.facilityName;
+      document.getElementById("ui-address").textContent = CONFIG.address;
+      document.getElementById("ui-hours-banner").textContent =
+        `Open Daily ${formatHour(CONFIG.openHour)} - ${formatHour(CONFIG.closeHour)}`;
+      document.getElementById("rate-badge").textContent = `₱${CONFIG.hourlyRate.toLocaleString()} / hr`;
+    }
 
+    function renderCourts() {
+      const container = document.getElementById("court-selector");
+      container.innerHTML = "";
+      CONFIG.courts.forEach(court => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `pill-btn ${court === selectedCourt ? "active" : ""}`;
+        btn.textContent = court;
+        btn.onclick = () => {
+          selectedCourt = court;
+          selectedSlots = [];
+          renderCourts();
+          fetchBookedSlots();
+          updateTotal();
+        };
+        container.appendChild(btn);
+      });
+    }
 
-Edit
-Confirm Booking
+    function renderDates() {
+      const container = document.getElementById("date-list");
+      container.innerHTML = "";
+      const today = new Date();
 
+      for (let i = 0; i < 5; i++) {
+        const d = new Date(today);
+        d.setDate(today.getDate() + dateOffset + i);
 
-// =========================================================================
-// 1. EDITABLE SETTINGS (Change anything inside here anytime!)
-// =========================================================================
-const CONFIG = {
-facilityName: "Peak and Paddle",
-address: "Sitio Bali-Bali, Brgy. Poblacion, Compostela, Cebu",
-// Change your hourly price here (in Philippine Pesos)
-hourlyRate: 300,
-// Change your operating hours here (Use 24-hour format: 6 = 6:00 AM, 12 = 12:00 PM, 21 = 9:00 PM)
-openHour: 6,   // Starts at 6:00 AM
-closeHour: 12, // Ends at 12:00 PM (Last slot is 11:00 AM - 12:00 PM)
-// Court names
-courts: ["Court 1", "Court 2"],
-// Paste your Supabase Project URL and Anon Key below once created
-supabaseUrl: "YOUR_SUPABASE_URL",
-supabaseAnonKey: "YOUR_SUPABASE_ANON_KEY"
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        const isoDate = `${year}-${month}-${day}`;
+
+        if (!selectedDateStr && i === 0) selectedDateStr = isoDate;
+        const dayName = d.toLocaleDateString("en-US", { weekday: "short" });
+
+        const card = document.createElement("div");
+        card.className = `date-card ${isoDate === selectedDateStr ? "active" : ""}`;
+        card.innerHTML = `<div class="day-num">${day}</div><div class="day-name">${dayName}</div>`;
+        card.onclick = () => {
+          selectedDateStr = isoDate;
+          selectedSlots = [];
+          renderDates();
+          fetchBookedSlots();
+          updateTotal();
+        };
+        container.appendChild(card);
+      }
+    }
+
+    async function fetchBookedSlots() {
+      bookedSlotsForDate = [];
+      if (db) {
+        const { data, error } = await db
+          .from("bookings")
+          .select("time_slot")
+          .eq("court_name", selectedCourt)
+          .eq("booking_date", selectedDateStr);
+
+        if (!error && data) {
+          bookedSlotsForDate = data.map(row => row.time_slot);
+        }
+      }
+      renderTimeSlots();
+    }
+
+    function renderTimeSlots() {
+      const container = document.getElementById("time-grid");
+      container.innerHTML = "";
+      generateTimeSlots().forEach(slot => {
+        const isBooked = bookedSlotsForDate.includes(slot);
+        const isSelected = selectedSlots.includes(slot);
+
+        const el = document.createElement("div");
+        el.className = `time-slot ${isBooked ? "booked" : ""} ${isSelected ? "selected" : ""}`;
+        el.textContent = slot;
+
+        if (!isBooked) {
+          el.onclick = () => {
+            if (selectedSlots.includes(slot)) {
+              selectedSlots = selectedSlots.filter(s => s !== slot);
+            } else {
+              selectedSlots.push(slot);
+            }
+            renderTimeSlots();
+            updateTotal();
+          };
+        }
+        container.appendChild(el);
+      });
+    }
+
+    function updateTotal() {
+      const count = selectedSlots.length;
+      const total = count * CONFIG.hourlyRate;
+      document.getElementById("selected-hours-label").textContent =
+        `${count} ${count === 1 ? "hour" : "hours"} selected`;
+      document.getElementById("total-price").textContent = `₱${total.toLocaleString()}`;
+    }
+
+    document.getElementById("prev-days").onclick = () => {
+      if (dateOffset > 0) {
+        dateOffset -= 1;
+        renderDates();
+      }
+    };
+
+    document.getElementById("next-days").onclick = () => {
+      dateOffset += 1;
+      renderDates();
+    };
+
+    const modal = document.getElementById("review-modal");
+    document.getElementById("review-btn").onclick = () => {
+      const name = document.getElementById("full-name").value.trim();
+      const contact = document.getElementById("contact-no").value.trim();
+
+      if (selectedSlots.length === 0) return alert("Please select at least one time slot first.");
+      if (!name || !contact) return alert("Please enter your Full Name and Contact Number.");
+
+      const total = selectedSlots.length * CONFIG.hourlyRate;
+      document.getElementById("modal-heading").textContent = "Review Your Booking";
+      document.getElementById("modal-summary").innerHTML = `
+        <div class="summary-row"><span>Court</span><span>${selectedCourt}</span></div>
+        <div class="summary-row"><span>Date</span><span>${selectedDateStr}</span></div>
+        <div class="summary-row"><span>Time</span><span>${selectedSlots.join("<br>")}</span></div>
+        <div class="summary-row"><span>Name</span><span>${name}</span></div>
+        <div class="summary-row"><span>Contact</span><span>${contact}</span></div>
+        <div class="summary-row" style="border-bottom:none; font-size:1.05rem;">
+          <span>Total Amount</span><span>₱${total.toLocaleString()}</span>
+        </div>
+  `;
+  document.getElementById("modal-actions").style.display = "grid";
+  modal.classList.add("open");
 };
-// =========================================================================
-// Initialize Supabase if keys are provided
-const isSupabaseConfigured = CONFIG.supabaseUrl.startsWith("http");
-const db = isSupabaseConfigured
-? window.supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey)
-: null;
-// App State
-let selectedCourt = CONFIG.courts[0];
-let dateOffset = 0;
-let selectedDateStr = "";
-let selectedSlots = [];
-let bookedSlotsForDate = [];
-// Format 24h number to 12h string (e.g., 6 -> "6:00 AM", 13 -> "1:00 PM")
-function formatHour(hour24) {
-const period = hour24 >= 12 && hour24 < 24 ? "PM" : "AM";
-const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
-return ${hour12}:00 ${period};
-}
-// Generate array of time slot labels based on openHour and closeHour
-function generateTimeSlots() {
-const slots = [];
-for (let h = CONFIG.openHour; h < CONFIG.closeHour; h++) {
-slots.push(${formatHour(h)} - ${formatHour(h + 1)});
-}
-return slots;
-}
-// Initialize static UI labels from CONFIG
-function initHeader() {
-document.getElementById("ui-facility-name").textContent = CONFIG.facilityName;
-document.getElementById("ui-address").textContent = CONFIG.address;
-document.getElementById("ui-hours-banner").textContent =
-Open Daily ${formatHour(CONFIG.openHour)} - ${formatHour(CONFIG.closeHour)};
-document.getElementById("rate-badge").textContent = ₱${CONFIG.hourlyRate.toLocaleString()} / hr;
-}
-// Render Court Pills
-function renderCourts() {
-const container = document.getElementById("court-selector");
-container.innerHTML = "";
-CONFIG.courts.forEach(court => {
-const btn = document.createElement("button");
-btn.type = "button";
-btn.className = pill-btn ${court === selectedCourt ? "active" : ""};
-btn.textContent = court;
-btn.onclick = () => {
-selectedCourt = court;
-selectedSlots = [];
-renderCourts();
-fetchBookedSlots();
-updateTotal();
-};
-container.appendChild(btn);
-});
-}
-// Render 5-day Date Carousel
-function renderDates() {
-const container = document.getElementById("date-list");
-container.innerHTML = "";
-const today = new Date();
-for (let i = 0; i < 5; i++) {
-const d = new Date(today);
-d.setDate(today.getDate() + dateOffset + i);
-const isoDate = d.toISOString().split("T")[0];
-if (!selectedDateStr && i === 0) selectedDateStr = isoDate;
-const dayNum = String(d.getDate()).padStart(2, "0");
-const dayName = d.toLocaleDateString("en-US", { weekday: "short" });
-const card = document.createElement("div");
-card.className = date-card ${isoDate === selectedDateStr ? "active" : ""};
-card.innerHTML = <div class="day-num">${dayNum}</div><div class="day-name">${dayName}</div>;
-card.onclick = () => {
-selectedDateStr = isoDate;
-selectedSlots = [];
-renderDates();
-fetchBookedSlots();
-updateTotal();
-};
-container.appendChild(card);
-}
-}
-// Fetch already booked slots from Supabase for selectedCourt + selectedDateStr
-async function fetchBookedSlots() {
-bookedSlotsForDate = [];
-if (db) {
-const { data, error } = await db
-.from("bookings")
-.select("time_slot")
-.eq("court_name", selectedCourt)
-.eq("booking_date", selectedDateStr);
-if (!error && data) {
-bookedSlotsForDate = data.map(row => row.time_slot);
-}
-}
-renderTimeSlots();
-}
-// Render Time Slot Grid
-function renderTimeSlots() {
-const container = document.getElementById("time-grid");
-container.innerHTML = "";
-const allSlots = generateTimeSlots();
-allSlots.forEach(slot => {
-const isBooked = bookedSlotsForDate.includes(slot);
-const isSelected = selectedSlots.includes(slot);
-const el = document.createElement("div");
-el.className = time-slot ${isBooked ? "booked" : ""} ${isSelected ? "selected" : ""};
-el.textContent = slot;
-if (!isBooked) {
-el.onclick = () => {
-if (selectedSlots.includes(slot)) {
-selectedSlots = selectedSlots.filter(s => s !== slot);
-} else {
-selectedSlots.push(slot);
-}
-renderTimeSlots();
-updateTotal();
-};
-}
-container.appendChild(el);
-});
-}
-// Update Estimated Total Price
-function updateTotal() {
-const count = selectedSlots.length;
-const total = count * CONFIG.hourlyRate;
-document.getElementById("selected-hours-label").textContent =
-${count} ${count === 1 ? "hour" : "hours"} selected;
-document.getElementById("total-price").textContent = ₱${total.toLocaleString()};
-}
-// Date navigation arrows
-document.getElementById("prev-days").onclick = () => {
-if (dateOffset > 0) {
-dateOffset -= 1;
-renderDates();
-}
-};
-document.getElementById("next-days").onclick = () => {
-dateOffset += 1;
-renderDates();
-};
-// Review Booking Modal
-const modal = document.getElementById("review-modal");
-document.getElementById("review-btn").onclick = () => {
-const name = document.getElementById("full-name").value.trim();
-const contact = document.getElementById("contact-no").value.trim();
-if (selectedSlots.length === 0) {
-alert("Please select at least one time slot first.");
-return;
-}
-if (!name || !contact) {
-alert("Please enter your Full Name and Contact Number / Messenger.");
-return;
-}
-const total = selectedSlots.length * CONFIG.hourlyRate;
-document.getElementById("modal-heading").textContent = "Review Your Booking";
-document.getElementById("modal-summary").innerHTML = <div class="summary-row"><span>Court</span><span>${selectedCourt}</span></div> <div class="summary-row"><span>Date</span><span>${selectedDateStr}</span></div> <div class="summary-row"><span>Time</span><span>${selectedSlots.join("<br>")}</span></div> <div class="summary-row"><span>Name</span><span>${name}</span></div> <div class="summary-row"><span>Contact</span><span>${contact}</span></div> <div class="summary-row" style="border-bottom:none; font-size:1.05rem;"> <span>Total Amount</span><span style="color:#18231c;">₱${total.toLocaleString()}</span> </div>;
-document.getElementById("modal-actions").style.display = "grid";
-modal.classList.add("open");
-};
+
 document.getElementById("close-modal").onclick = () => modal.classList.remove("open");
-// Submit Booking to Supabase
+
 document.getElementById("confirm-booking-btn").onclick = async () => {
-const btn = document.getElementById("confirm-booking-btn");
-btn.disabled = true;
-btn.textContent = "Saving...";
-const name = document.getElementById("full-name").value.trim();
-const contact = document.getElementById("contact-no").value.trim();
-const email = document.getElementById("email").value.trim();
-const notes = document.getElementById("notes").value.trim();
-if (db) {
-const rowsToInsert = selectedSlots.map(slot => ({
-court_name: selectedCourt,
-booking_date: selectedDateStr,
-time_slot: slot,
-full_name: name,
-contact_no: contact,
-email: email,
-notes: notes,
-total_amount: CONFIG.hourlyRate,
-status: "pending"
-}));
-const { error } = await db.from("bookings").insert(rowsToInsert);
-if (error) {
-alert("Sorry! One of your selected slots was just booked by someone else. Please pick another slot.");
-btn.disabled = false;
-btn.textContent = "Confirm Booking";
-modal.classList.remove("open");
-fetchBookedSlots();
-return;
-}
-}
-// Success state
-document.getElementById("modal-heading").textContent = "Booking Confirmed!";
-document.getElementById("modal-summary").innerHTML = <p style="font-size:0.92rem; color:#374151; line-height:1.5; margin-bottom:14px;"> Thank you, <strong>${name}</strong>! Your slot at <strong>${CONFIG.facilityName}</strong> has been reserved. </p> <button type="button" class="submit-btn" onclick="location.reload()">Done</button>;
-document.getElementById("modal-actions").style.display = "none";
+  const btn = document.getElementById("confirm-booking-btn");
+  btn.disabled = true;
+  btn.textContent = "Saving...";
+
+  const name = document.getElementById("full-name").value.trim();
+  const contact = document.getElementById("contact-no").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const notes = document.getElementById("notes").value.trim();
+
+  if (db) {
+    const rows = selectedSlots.map(slot => ({
+      court_name: selectedCourt,
+      booking_date: selectedDateStr,
+      time_slot: slot,
+      full_name: name,
+      contact_no: contact,
+      email: email,
+      notes: notes,
+      total_amount: CONFIG.hourlyRate,
+      status: "pending"
+    }));
+
+    const { error } = await db.from("bookings").insert(rows);
+    if (error) {
+      alert("Sorry! One of those slots was just booked. Please pick another.");
+      btn.disabled = false;
+      btn.textContent = "Confirm Booking";
+      modal.classList.remove("open");
+      fetchBookedSlots();
+      return;
+    }
+  }
+
+  document.getElementById("modal-heading").textContent = "Booking Confirmed!";
+  document.getElementById("modal-summary").innerHTML = `<p style="font-size:0.92rem; color:#374151; line-height:1.5; margin-bottom:14px;">Thank you, <strong>${name}</strong>! Your slot at <strong>${CONFIG.facilityName}</strong> is reserved.</p><button type="button" class="submit-btn" onclick="location.reload()">Done</button>`;
+  document.getElementById("modal-actions").style.display = "none";
 };
-// Start App
+
 initHeader();
 renderCourts();
 renderDates();
 fetchBookedSlots();
+  </script>
+</body>
+</html>

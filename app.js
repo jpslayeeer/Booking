@@ -138,9 +138,15 @@ function renderSlots() {
 }
 
 function updateTotal() {
-  const total = selectedSlots.length * CONFIG.hourlyRate;
-  document.getElementById("ui-hours-count").textContent = `${selectedSlots.length} ${selectedSlots.length === 1 ? "hour" : "hours"} selected`;
+  const count = selectedSlots.length;
+  const total = count * CONFIG.hourlyRate;
+  document.getElementById("ui-hours-count").textContent = `${count} ${count === 1 ? "hour" : "hours"} selected`;
   document.getElementById("ui-total").textContent = `₱${total.toLocaleString()}`;
+
+  const step4 = document.getElementById("step-4");
+  const reviewBtn = document.getElementById("review-btn");
+  if (step4) step4.style.display = count > 0 ? "block" : "none";
+  if (reviewBtn) reviewBtn.style.display = count > 0 ? "block" : "none";
 }
 
 document.getElementById("prev-days").onclick = () => { if (dateOffset > 0) { dateOffset--; renderDates(); } };

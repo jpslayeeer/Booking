@@ -155,16 +155,16 @@ function renderSlots() {
       el.className = "py-3 px-2 rounded-xl text-xs font-semibold text-center bg-white text-[#18231c] shadow-sm hover:border-[#18231c] border border-transparent cursor-pointer";
     }
 
-    if (!isBooked) {
+      if (!isBooked) {
       el.onclick = () => {
         selectedSlots = isSelected ? selectedSlots.filter(s => s !== label) : [...selectedSlots, label];
         renderSlots();
         updateTotal();
+        const hasSlots = selectedSlots.length > 0;
+        document.getElementById("step-4").style.display = hasSlots ? "block" : "none";
+        document.getElementById("review-btn").style.display = hasSlots ? "block" : "none";
       };
     }
-    box.appendChild(el);
-  }
-}
 
 function updateTotal() {
   const total = selectedSlots.length * CONFIG.hourlyRate;

@@ -5,14 +5,14 @@ const CONFIG = {
   openHour: 6,
   closeHour: 23,
   courts: ["Court 1", "Court 2"],
-  supabaseUrl: "https://fkvtxsyozilpuheexjio.supabase.co/rest/v1/",
+    supabaseUrl: "https://supabase.co",,
   supabaseAnonKey: "sb_publishable_ccBH2mBZycjN6RVicoy_7A_eu_Rs0ZI"
 };
 
 const isSupabaseReady = CONFIG.supabaseUrl.startsWith("http");
 const db = isSupabaseReady ? window.supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey) : null;
 
-let selectedCourt = CONFIG.courts;
+let selectedCourt = CONFIG.courts;"
 let dateOffset = 0;
 let selectedDateStr = "";
 let selectedSlots = [];

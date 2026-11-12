@@ -137,35 +137,6 @@ function renderSlots() {
   }
 }
 
-function renderSlots() {
-  const box = document.getElementById("time-grid");
-  box.innerHTML = "";
-  for (let h = CONFIG.openHour; h < CONFIG.closeHour; h++) {
-    const label = `${formatHour(h)} - ${formatHour(h + 1)}`;
-    const isBooked = bookedSlots.includes(label);
-    const isSelected = selectedSlots.includes(label);
-
-    const el = document.createElement("div");
-    el.textContent = label;
-    if (isBooked) {
-      el.className = "py-3 px-2 rounded-xl text-xs font-semibold text-center bg-gray-200 text-gray-400 line-through cursor-not-allowed";
-    } else if (isSelected) {
-      el.className = "py-3 px-2 rounded-xl text-xs font-semibold text-center bg-[#18231c] text-white shadow-md cursor-pointer";
-    } else {
-      el.className = "py-3 px-2 rounded-xl text-xs font-semibold text-center bg-white text-[#18231c] shadow-sm hover:border-[#18231c] border border-transparent cursor-pointer";
-    }
-
-      if (!isBooked) {
-      el.onclick = () => {
-        selectedSlots = isSelected ? selectedSlots.filter(s => s !== label) : [...selectedSlots, label];
-        renderSlots();
-        updateTotal();
-        const hasSlots = selectedSlots.length > 0;
-        document.getElementById("step-4").style.display = hasSlots ? "block" : "none";
-        document.getElementById("review-btn").style.display = hasSlots ? "block" : "none";
-      };
-    }
-
 function updateTotal() {
   const total = selectedSlots.length * CONFIG.hourlyRate;
   document.getElementById("ui-hours-count").textContent = `${selectedSlots.length} ${selectedSlots.length === 1 ? "hour" : "hours"} selected`;
